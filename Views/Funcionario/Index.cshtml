@@ -1,0 +1,129 @@
+﻿﻿@using Azure.Core;
+@using System.Globalization;
+@model IEnumerable<AppAzure.Models.Funcionario>
+
+
+@{
+    ViewData["Title"] = "Listagem Funcionários";
+}
+
+
+<h2>Listagem de Funcionários</h2>
+<br />
+<p>
+    <a asp-action="Criar">Novo Funcionário</a>
+</p>
+<br />
+
+<div class="consultas d-flex bd-highlight">
+
+    <form asp-action="PesquisaDepartamento">
+        <div class="form-group pesquisar d-flex PesquisaStatus">
+            <label class="campo">DEPARTAMENTO</label>
+            <select id="departamento" name="departamento" opcao="departamento" class="campo custom-select custom-select-lg mb-3">
+                <option selected>Selecione</option>
+                @foreach (var departamento in Model.Select(x => x.Departamento).Distinct())
+                {
+                    <option value="@departamento">@departamento</option>
+                }
+            </select>
+            <button type="submit" class="campo btn btn-primary">Pesquisar</button>
+        </div>
+
+    </form>
+
+
+    <form method="post" asp-action="PesquisaNome">
+        <div class="form-group pesquisar d-flex">
+            <div class="campo">
+                <input id="nome" name="nome" class="form-control" placeholder="Digite o Nome">
+            </div>
+            <button type="submit" class="campo btn btn-primary ">Pesquisar</button>
+        </div>
+    </form>
+
+    <form asp-action="PesquisaData">
+        <div class="form-group pesquisar d-flex">
+
+            <div class="campo">
+                <input id="data" name="data" type="Date" class="form-control" placeholder="Data Inicial">
+            </div>
+            <div class="campo">
+                <input id="data1" name="data1" type="Date" class="form-control" placeholder="Data Final">
+            </div>
+            <button type="submit" class="campo btn btn-primary ">Pesquisar</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+<div class="">
+    <table class="tabela-contato shadow tela-contato">
+        <thead>
+            <tr class="cabecario">
+                <th class="linha-cabecario">
+                    ID
+                </th>
+                <th>
+                    NOME
+                </th>
+                <th>
+                    ENDEREÇO
+                </th>
+                <th>
+                    DEPARTAMENTO
+                </th>
+                <th>
+                    EMAIL PROFISSIONAL
+                </th>
+                <th>
+                    SALÁRIO
+                </th>
+                <th>
+                    ADMISSÃO
+                </th>
+                <th>
+                    OPÇÕES
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+
+            {
+                
+                                     
+                <tr>
+                    <td class="linha-cabecario">
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Endereco)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Departamento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.EmailProfissional)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Salario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.DataAdmissao)
+                    </td>
+                    <td class="selecao-icon">
+                        <a asp-action="Editar" asp-route-id="@item.Id">  <i class="fa fa-pencil"></i></a>
+                        <a asp-action="Detalhes" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+                        <a asp-action="Excluir" asp-route-id="@item.Id"> <i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
